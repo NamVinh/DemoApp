@@ -1,0 +1,27 @@
+{
+	// Libs import
+	"tw": {
+		"prefix": "tw",
+		"body": ["import tw from 'twrnc';"],
+		"description": "tw",
+	},
+
+	// Styles for component
+	"Styles for component": {
+		"prefix": "styles",
+		"body": [
+			"import {  StyleSheet } from 'react-native';",
+			"import tw from 'twrnc';",
+			"",
+			"const styles = StyleSheet.create({",
+			"	$TM_FILENAME_BASE${0}: {",
+			"		...tw``,",
+			"	},",
+			"});",
+			"",
+			"export default styles;",
+			"",
+		],
+		"description": "Styles for component",
+	},
+}
