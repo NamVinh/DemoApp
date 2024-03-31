@@ -1,43 +1,53 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { get } from 'lodash';
-import tw from 'twrnc';
-
-import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native';
-import { StyleSheet, View } from 'react-native';
-import { useTheme } from 'react-native-elements';
-import { Home } from '../screens/Home';
-import Login from '../screens/Login';
+import { Icon } from '@rneui/themed';
+import { Logo } from 'components/Logo';
+import DetailScreen from 'screens/Detail';
+import HomeScreen from 'screens/Home';
+import Login from 'screens/Login';
+import SettingsScreen from 'screens/Settings';
 import routes from './routes';
 
-const Stack = createNativeStackNavigator();
+export type RootStackParamList = {
+	Root: undefined;
+	Login: undefined;
+
+	Home: undefined;
+	Detail: undefined;
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
-	const { theme } = useTheme();
+	// const { theme } = useTheme();
 
 	return (
 		<Tab.Navigator
 			initialRouteName={routes.Home}
-			tabBarOptions={{
-				allowFontScaling: false,
-				showLabel: false,
-				activeTintColor: get(theme.colors, 'active'),
-				inactiveTintColor: get(theme.colors, 'inactive'),
-			}}
 			screenOptions={{
-				tabBarStyle: { backgroundColor: tw`bg-white` },
+				tabBarStyle: { backgroundColor: 'white' },
 			}}
 		>
 			<Tab.Screen
 				name={routes.Home}
-				component={Home}
+				component={HomeScreen}
 				options={{
 					headerTitle: () => {
 						return <Logo style={{ width: 100 }} />;
 					},
 					tabBarIcon: ({ color }) => {
-						return <Feather name="home" size={24} color={color} />;
+						return <Icon name="home" size={24} color={color} />;
+					},
+				}}
+			/>
+			<Tab.Screen
+				name={routes.Settings as keyof RootStackParamList}
+				component={SettingsScreen}
+				options={{
+					tabBarIcon: ({ color }) => {
+						return <Icon name="settings" size={24} color={color} />;
 					},
 				}}
 			/>
@@ -48,49 +58,34 @@ const TabNavigator = () => {
 const PublicNavigator = () => {
 	return (
 		<Stack.Navigator>
-			<Stack.Screen name={routes.Login} component={Login} options={{ headerShown: false }} />
+			<Stack.Screen
+				name={routes.Login as keyof RootStackParamList}
+				component={Login}
+				options={{ headerShown: false }}
+			/>
 		</Stack.Navigator>
 	);
 };
 
 const PermissionNavigator = () => {
 	return (
-		<Stack.Navigator
-			screenOptions={{
-				headerLeft: ({ onPress, canGoBack }) => {
-					return (
-						canGoBack && (
-							<Button type="clear" onPress={onPress} icon={{ type: 'feather', name: 'chevron-left', size: 30 }} />
-						)
-					);
-				},
-			}}
-		>
-			<Stack.Screen name={routes.Root} component={TabNavigator} options={{ headerShown: false }} />
+		<Stack.Navigator>
+			<Stack.Screen
+				name={routes.Root as keyof RootStackParamList}
+				component={TabNavigator}
+				options={{ headerShown: false }}
+			/>
+			<Stack.Screen
+				name={routes.Detail as keyof RootStackParamList}
+				component={DetailScreen}
+				options={{ headerShown: false }}
+			/>
 		</Stack.Navigator>
 	);
 };
 
-const linking = {
-	prefixes: ['pcr://'],
-	config: {
-		screens: {
-			Home: routes.Home,
-		},
-	},
-};
-
 export const Navigator = () => {
-	const isAuth = false;
-	const navigationRef = useNavigationContainerRef();
-	return (
-		<View>
-			<View style={[StyleSheet.absoluteFill, { justifyContent: 'center', alignItems: 'center' }]}>
-				<Logo />
-			</View>
-			<NavigationContainer linking={linking} ref={navigationRef}>
-				{isAuth ? <PermissionNavigator /> : <PublicNavigator />}
-			</NavigationContainer>
-		</View>
-	);
+	const isAuth = true;
+
+	return <NavigationContainer>{isAuth ? <PermissionNavigator /> : <PublicNavigator />}</NavigationContainer>;
 };

@@ -5,23 +5,48 @@
 		"body": ["import tw from 'twrnc';"],
 		"description": "tw",
 	},
+	"yup": {
+		"prefix": "yup",
+		"body": ["import * as yup from 'yup';"],
+		"description": "yup",
+	},
 
 	// Styles for component
 	"Styles for component": {
 		"prefix": "styles",
 		"body": [
-			"import {  StyleSheet } from 'react-native';",
+			"import { makeStyles } from '@rneui/themed';",
 			"import tw from 'twrnc';",
 			"",
-			"const styles = StyleSheet.create({",
+			"const useStyles = makeStyles({",
 			"	$TM_FILENAME_BASE${0}: {",
 			"		...tw``,",
 			"	},",
 			"});",
 			"",
-			"export default styles;",
+			"export default useStyles;",
 			"",
 		],
 		"description": "Styles for component",
+	},
+
+	"Styles for component with theme": {
+		"prefix": "stylest",
+		"body": [
+			"import { makeStyles } from '@rneui/themed';",
+			"import tw from 'twrnc';",
+			"",
+			"const useStyles = makeStyles((theme, props: Props) => {",
+			"	return {",
+			"		$TM_FILENAME_BASE${0}: {",
+			"			...tw``,",
+			"		},",
+			"	};",
+			"});",
+			"",
+			"export default useStyles;",
+			"",
+		],
+		"description": "Styles for component with token",
 	},
 }

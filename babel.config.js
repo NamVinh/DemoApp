@@ -1,5 +1,5 @@
 module.exports = {
-	presets: ['babel-preset-expo', 'module:@react-native/babel-preset'],
+	presets: ['module:@react-native/babel-preset'],
 	plugins: [
 		'nativewind/babel',
 		[
@@ -9,6 +9,7 @@ module.exports = {
 				extensions: ['.ios.ts', '.android.ts', '.ts', '.ios.tsx', '.android.tsx', '.tsx', '.jsx', '.js', '.json'],
 				alias: {
 					navigation: './src/navigation',
+					atoms: './src/atoms',
 					assets: './assets',
 					screens: './src/screens',
 					containers: './src/containers',
