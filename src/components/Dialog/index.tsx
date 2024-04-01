@@ -6,10 +6,11 @@ import React from 'react';
 
 export interface DialogProps extends BaseDialogProps {
 	name: string | string[];
+	title: string;
 	onCancel?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const Dialog = ({ name: nameProp, children, onCancel, overlayStyle, ...restProps }: DialogProps) => {
+const Dialog = ({ name: nameProp, title, children, onCancel, overlayStyle, ...restProps }: DialogProps) => {
 	const { name, handleCancel } = useModalStore();
 
 	const getOpenStatus = () => {
@@ -30,22 +31,8 @@ const Dialog = ({ name: nameProp, children, onCancel, overlayStyle, ...restProps
 			}}
 			overlayStyle={overlayStyle}
 		>
-			<BaseDialog.Title title="Dialog Title" />
+			<BaseDialog.Title title={title} />
 			{children}
-			{/* <BaseDialog.Actions>
-				<BaseDialog.Button
-					title="ACTION 1"
-					onPress={() => {
-						return console.log('Primary Action Clicked!');
-					}}
-				/>
-				<BaseDialog.Button
-					title="ACTION 2"
-					onPress={() => {
-						return console.log('Secondary Action Clicked!');
-					}}
-				/>
-			</BaseDialog.Actions> */}
 		</BaseDialog>
 	);
 };

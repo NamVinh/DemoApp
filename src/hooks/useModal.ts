@@ -1,4 +1,4 @@
-import { difference } from 'lodash';
+import { cloneDeep, difference } from 'lodash';
 import { create } from 'zustand';
 
 export interface ModalState {
@@ -59,20 +59,24 @@ export const useModalStore = create<ModalState>((set, get) => {
 
 		handleCancel: (callback) => {
 			const { name } = get();
-			if (typeof name === 'string') {
+			const nameClone = cloneDeep(name);
+			if (typeof nameClone === 'string') {
 				set({
 					name: '',
+					data: {},
 				});
 			} else {
-				name.pop();
+				nameClone.pop();
 				set({
-					name: name.length === 1 ? name[0] : name,
+					name: nameClone.length === 1 ? nameClone[0] : nameClone,
+					data: {},
 				});
 			}
 
 			if (typeof callback === 'function') {
 				set({
 					closeCallback: callback,
+					data: {},
 				});
 			}
 		},

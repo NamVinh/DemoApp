@@ -10,7 +10,7 @@ module.exports = {
 				alias: {
 					navigation: './src/navigation',
 					atoms: './src/atoms',
-					assets: './assets',
+					assets: './src/assets',
 					screens: './src/screens',
 					containers: './src/containers',
 					components: './src/components',
